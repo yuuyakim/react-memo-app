@@ -18,12 +18,21 @@ const App = () => {
     setContents([...contents, text]);
   };
 
+  const onClickDeleteButton = (id: number): void => {
+    setContents(
+      contents.filter((content, index) => (index !== id))
+    );
+  };
+
   return (
     <div>
       <Header>簡単メモアプリ</Header>
       <InputMemo onChangeText={onChangeText}></InputMemo>
       <AddButton onClickAddButton={onClickAddButton}></AddButton>
-      <Contents contents={contents}></Contents>
+      <Contents
+        contents={contents}
+        onClickDeleteButton={onClickDeleteButton}
+      ></Contents>
     </div>
   );
 }
