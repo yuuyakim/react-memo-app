@@ -4,7 +4,7 @@ import { InputMemo } from "./components/InputMemo";
 import { AddButton } from "./components/AddButton";
 import { Contents } from "./components/Contents";
 
-function App() {
+const App = () => {
   // textboxの内容を保持しておくためのState
   const [text, setText] = useState<string>("");
   // メモ一覧のState
