@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ChangeEvent, useState } from 'react';
+import { Header } from './components/Header';
+import { InputMemo } from './components/InputMemo'
+import { AddButton } from './components/AddButton';
 
 function App() {
+  // textboxの内容を保持しておくためのState
+  const [text, setText] = useState<string>("")
+  // メモ一覧のState
+  const [contents, setContents] = useState<Array<string>>([])
+  
+
+  const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value)
+    console.log(text)
+  }
+
+  const onClickAddButton = () => {
+    setContents([...contents, text]);
+    console.log(contents)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header>簡単メモアプリ</Header>
+      <InputMemo onChangeText={onChangeText}></InputMemo>
+      <AddButton onClickAddButton={onClickAddButton}></AddButton>
     </div>
   );
 }
