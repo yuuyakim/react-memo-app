@@ -1,7 +1,14 @@
-export const Contents = () => {
+import React from "react";
+
+export const Contents: React.FC<{contents: Array<string>}> = ({ contents }) => {
+
     return (
       <div>
-        <ul></ul>
+        <ul>
+          {contents.map((content, index) => (
+            <li key={index}>{content}</li>
+          ))}
+        </ul>
       </div>
     );
 }
