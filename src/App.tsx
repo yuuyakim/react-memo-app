@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { InputMemo } from "./components/InputMemo";
 import { AddButton } from "./components/AddButton";
@@ -21,19 +21,22 @@ const App = () => {
   };
 
   const onClickAddButton = (): void => {
-    setContents([...contents, { id: contents.length, value: text, isEdit: false }]);
+    setContents([...contents, { value: text, isEdit: false }]);
     setText('')
+    saveContents();
   };
 
   const onClickDeleteButton = (id: number): void => {
-    setContents(contents.filter((content, index) => content.id !== id));
+    setContents(contents.filter((content, index) => index !== id));
+    saveContents();
   };
 
   const onClickEditButton = (id: number): void => {
     setContents(
-      contents.map(
-        (content) =>
-          (content.id === id ? { id: content.id, value: content.value, isEdit: true } : content)
+      contents.map((content, index) =>
+        index === id
+          ? { value: content.value, isEdit: true }
+          : content
       )
     );
 
@@ -42,13 +45,43 @@ const App = () => {
 
   const onClickCompleteButton = (id: number): void => {
     setContents(
-      contents.map((content) =>
-        content.id === id
-          ? { id: content.id, value: editText, isEdit: false }
-          : content
+      contents.map((content, index) =>
+        index === id ? {value: editText, isEdit: false } : content
       )
     );
+    saveContents()
   };
+
+  const loadContents = () => {
+    const getValue: string | null = window.localStorage.getItem("memoList")
+    if (typeof getValue === 'string'){
+      const getData = JSON.parse(getValue)
+      console.log(getData)
+
+      const loadContents: ContentProps[] = []
+
+      for (let key in getData) {
+        loadContents.push({
+          value: getData[key],
+          isEdit: false,
+        });
+      }
+
+      setContents([...contents, ...loadContents]);
+    }
+  }
+
+  const saveContents = () => {
+    const localStorageObject: {} = {}
+    contents.forEach((content, index) => {
+      Object.assign(localStorageObject, { [index]: content.value });}
+    )
+    const key = 'memoList'
+    const values = JSON.stringify(localStorageObject)
+    window.localStorage.setItem(key, values)
+  }
+
+  useEffect(() => loadContents(), [])
 
   return (
     <div>

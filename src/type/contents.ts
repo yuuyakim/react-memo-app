@@ -8,7 +8,6 @@ export type ContentsProps = {
 };
 
 export type ContentProps = {
-  id: number;
   value: string;
   isEdit: boolean;
 };

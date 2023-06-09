@@ -21,13 +21,9 @@ export const Contents: React.FC<ContentsProps> = ({
             )}
             <button onClick={() => onClickDeleteButton(index)}>削除</button>
             {content.isEdit ? (
-              <button onClick={() => onClickCompleteButton(content.id)}>
-                完了
-              </button>
+              <button onClick={() => onClickCompleteButton(index)}>完了</button>
             ) : (
-              <button onClick={() => onClickEditButton(content.id)}>
-                編集
-              </button>
+              <button onClick={() => onClickEditButton(index)}>編集</button>
             )}
           </li>
         ))}
